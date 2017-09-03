@@ -5,22 +5,22 @@ import { observer } from 'mobx-react';
 // How to inject the store into a stateless component
 
 const AlertModal = observer( ["store"], ({ store }) => {
-  const { ux } = store;
+  const { alert } = store.ux;
   return(
     <Modal
         className="global-alert-modal"
-	bsSize={ux.modalSize}
-        show={ux.modalOpen}
-        onHide={() => ux.alertClose()}
+	bsSize={alert.size}
+        show={alert.open}
+        onHide={() => alert.close()}
         aria-labelledby="ModalHeader">
       <Modal.Header closeButton>
-        <Modal.Title id='ModalHeader'>{ux.modalTitle || 'Alert'}</Modal.Title>
+        <Modal.Title id='ModalHeader'>{alert.title || 'Alert'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{ux.modalMessage}</p>
+        <p>{alert.message}</p>
       </Modal.Body>
       <Modal.Footer>
-	<Button onClick={() => ux.alertClose()}>Close</Button>
+	<Button onClick={() => alert.close()}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

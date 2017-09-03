@@ -17,10 +17,10 @@ class Home extends React.Component {
     postJSON( ep, data ).then( (responseData) => {
       this.fetching = false;
       this.fetchedData = responseData;
-      ux.alert( 'Success', JSON.stringify( responseData, null, 2 ) );
+      ux.alert.show( 'Success', JSON.stringify( responseData, null, 2 ) );
     }).catch( (err) => {
       this.fetching = false;
-      ux.alert( 'Error', err.message );
+      ux.alert.show( 'Error', err.message );
     });
   }
 
@@ -42,8 +42,8 @@ class Home extends React.Component {
 	</p>
 
 	<div>
-          <button className="btn" onClick={ () => ux.alert( 'something bad happened' ) }>Global Alert</button>
-          <button className="btn" onClick={ () => ux.alert('oops', 'something BIG happened', 'large' ) }>Big Global Alert</button>
+          <button className="btn" onClick={ () => ux.alert.show( 'something bad happened' ) }>Global Alert</button>
+          <button className="btn" onClick={ () => ux.alert.show('oops', 'something BIG happened', 'large' ) }>Big Global Alert</button>
 	</div>
 
 	<div>
