@@ -1,8 +1,10 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, computed } from 'mobx';
 import Alert from 'react-s-alert';
 import AlertStore from './AlertStore';
+import { postJSON } from '../lib/api';
 
 const initialState = {
+  user: null,
 };
 
 class UX {
@@ -27,6 +29,28 @@ class UX {
     }
     Alert[ severity ]( message );
   }
+
+  @action login( username, password, cb ) {
+    postJSON( '/test/login', { username, password } ).then( (user) => {
+      this.user = user;
+      cb();
+    }).catch( (err) => {
+      cb( err );
+    });
+  }
+  
+  @action logout() {
+    postJSON( '/test/logout', {} ).then( () => {
+      this.user = null;
+    }).catch( (err) => {
+      this.alert.show( 'Error', err.message );
+    });
+  }
+  
+  @computed get isAuthenticated() {
+    return this.user !== null;
+  }
+
 }
 
 export default UX;

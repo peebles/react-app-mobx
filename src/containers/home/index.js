@@ -2,6 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react";
 import { observable } from 'mobx';
 import { postJSON } from '../../lib/api';
+import ProductList from '../productList';
 
 // How to inject the store into a statefull component
 
@@ -25,7 +26,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { counter, ux } = this.props.store;
+    let { counter, ux, router, products } = this.props.store;
     return (
       <div>
 	<h1>Home</h1>
@@ -58,10 +59,16 @@ class Home extends React.Component {
 	  <button className="btn" disabled={this.fetching} onClick={ () => this.testApi( '/test/fallbacks', {} ) }>Fallback</button>
 	  <button className="btn" disabled={this.fetching} onClick={ () => this.testApi( '/test/exceptions', {} ) }>Exception</button>
 	</div>
-	
+
+	<div>{JSON.stringify(router.queryParams)}</div>
 
 	{ this.fetchedData ? <pre>{JSON.stringify( this.fetchedData, null, 2 )}</pre> : null }
 
+	{/* This should kick off the async fetch of the products list from the server */}
+	<ProductList products={products} />
+
+	{/* The products list won't update now unless we explicity refresh() the lazyObservable */}
+	<button className="btn" onClick={() => products.refresh()}>Refresh Products...</button>
 	
       </div>
     );
