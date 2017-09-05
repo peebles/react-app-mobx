@@ -25,6 +25,8 @@ const App = observer(["store"],({store}) => (
       <Link view={routes.about} store={store}>About</Link>
       &nbsp;
       { store.ux.user ? <Link view={routes.home} store={store}>Home</Link> : <Link view={routes.login} store={store}>Login</Link> }
+      &nbsp;
+      { store.ux.user ? <a href="javascript:;" onClick={() => store.ux.logout()}>Logout</a> : null }
     </div>
     <MobxRouter />
     <Alert stack={true} effect="slide" offset={160} />

@@ -5,6 +5,7 @@ import store from './store';
 import App from './containers/app';
 import registerServiceWorker from './registerServiceWorker';
 import {enableLogging} from 'mobx-logger';
+import persistentState from './lib/PersistentState';
 
 import { start } from './router';
 
@@ -18,12 +19,23 @@ enableLogging();
 
 const target = document.querySelector('#root');
 
-// Use the mobx-react Provider to provide the
-// store if injected into a component.
+// Initialize the store
+//
+// You can obtain a hydrated state somehow and pass that to initialize the store.
+// In this case I am using the PersistentState object to get state from localStorage.
+// This example app store the authenticated user in persistentState upon login and
+// removes it on logout.  In his way you can do a browser reload and still have
+// an authenticated user ... instead of bouncing to the login page every time you
+// do a reload.
+//
+let state = persistentState.getState();
+const theStore = new store( state );
 
-const theStore = new store();
+// Initialize the router
 start( theStore );
 
+// Use the mobx-react Provider to provide the
+// store if injected into a component.
 render(
   <Provider store={ theStore }>
     <App />
@@ -32,17 +44,3 @@ render(
 );
 registerServiceWorker();
 
-
-// Router?
-/*
-ReactDOM.render(
-  <Provider store={ new store() }>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <Route path="/" component={SomeComponent} />
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-);
-*/

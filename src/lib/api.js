@@ -13,7 +13,7 @@ export function postJSON(url, data) {
     window.fetch(url, opts)
           .then(res => {
             if (res.ok) {
-              res.json().then(resolve).catch(reject)
+              res.json().then(resolve).catch(resolve)
             } else {
               res.text().then((text) => reject({status: res.status, message: text || res.statusText, statusText: res.statusText, responseText: text})).catch( reject );
             }
@@ -40,7 +40,7 @@ export function getJSON(url, params) {
     window.fetch(url, opts)
           .then(res => {
             if (res.ok) {
-              res.json().then(resolve).catch(reject)
+              res.json().then(resolve).catch(resolve)
             } else {
               res.text().then((text) => reject({status: res.status, message: text || res.statusText, statusText: res.statusText, responseText: text})).catch( reject );
             }

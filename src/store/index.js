@@ -8,10 +8,10 @@ import { RouterStore } from 'mobx-router';
 import Products from './Products';
 
 class RootStore {
-  constructor() {
-    this.products = new Products( this );
-    this.counter = new Counter( this );
-    this.ux = new UX( this );
+  constructor( state ) {
+    this.products = new Products( this, state.products || {} );
+    this.counter = new Counter( this, state.counter || {} );
+    this.ux = new UX( this, state.ux || {} );
     this.router = new RouterStore();
   }
 }
