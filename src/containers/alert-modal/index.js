@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Header, Icon } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 
 // How to inject the store into a stateless component
@@ -9,19 +9,19 @@ const AlertModal = observer( ["store"], ({ store }) => {
   return(
     <Modal
         className="global-alert-modal"
-	bsSize={alert.size}
-        show={alert.open}
-        onHide={() => alert.close()}
-        aria-labelledby="ModalHeader">
-      <Modal.Header closeButton>
-        <Modal.Title id='ModalHeader'>{alert.title || 'Alert'}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+	size={alert.size}
+        open={alert.open}
+        onClose={() => alert.close()}
+        basic={alert.basic}>
+      <Header content={alert.title || 'Alert'} />
+      <Modal.Content>
         <p>{alert.message}</p>
-      </Modal.Body>
-      <Modal.Footer>
-	<Button onClick={() => alert.close()}>Close</Button>
-      </Modal.Footer>
+      </Modal.Content>
+      <Modal.Actions>
+	<Button color="green" onClick={() => alert.close()} inverted>
+	  <Icon name='checkmark' /> Got it
+	</Button>
+      </Modal.Actions>
     </Modal>
   );
 });

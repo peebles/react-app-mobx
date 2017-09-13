@@ -6,6 +6,7 @@ const initialState = {
   message: '',
   size: null,
   open: false,
+  basic: false,
 };
 
 class AlertStore {
@@ -15,7 +16,7 @@ class AlertStore {
     extendObservable( this, initialState );
   }
 
-  @action show( title, message, size ) {
+  @action show( title, message, size, basic ) {
     if ( ! message ) {
       message = title;
       title = 'Alert';
@@ -23,6 +24,7 @@ class AlertStore {
     this.title = title;
     this.message = message;
     this.size = size;
+    this.basic = basic === undefined ? false : basic;
     this.open = true;
   }
 

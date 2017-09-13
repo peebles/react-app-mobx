@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'mobx-react';
-import store from './store';
+import RootStore from './store';
 import App from './containers/app';
 import registerServiceWorker from './registerServiceWorker';
 import {enableLogging} from 'mobx-logger';
@@ -10,12 +10,12 @@ import persistentState from './lib/PersistentState';
 import { start } from './router';
 
 // Global CSS
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import 'semantic-ui-css/semantic.min.css';
 
-import './index.css';
-
-enableLogging();
+// Fairly uless mobx logging
+if ( 1 ) {
+  enableLogging();
+}
 
 const target = document.querySelector('#root');
 
@@ -29,15 +29,15 @@ const target = document.querySelector('#root');
 // do a reload.
 //
 let state = persistentState.getState();
-const theStore = new store( state );
+const store = new RootStore( state );
 
 // Initialize the router
-start( theStore );
+start( store );
 
 // Use the mobx-react Provider to provide the
 // store if injected into a component.
 render(
-  <Provider store={ theStore }>
+  <Provider store={ store }>
     <App />
   </Provider>,
   target

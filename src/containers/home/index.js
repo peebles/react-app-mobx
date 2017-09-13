@@ -3,6 +3,7 @@ import {observer} from "mobx-react";
 import { observable } from 'mobx';
 import { postJSON } from '../../lib/api';
 import ProductList from '../productList';
+import { Container, Button, Segment } from 'semantic-ui-react';
 
 // How to inject the store into a statefull component
 
@@ -28,49 +29,53 @@ class Home extends React.Component {
   render() {
     let { counter, ux, router, products } = this.props.store;
     return (
-      <div>
+      <Container fluid>
 	<h1>Home</h1>
 	<p>Count: {counter.count}</p>
+	<Segment.Group>
+	  <Segment>
+	    <Button  onClick={() => counter.increment()} disabled={counter.isIncrementing}>Increment</Button>
+	    <Button  onClick={() => counter.incrementAsync()} disabled={counter.isIncrementing}>Increment Async</Button>
+	  </Segment>
 	
-	<p>
-	  <button className="btn" onClick={() => counter.increment()} disabled={counter.isIncrementing}>Increment</button>
-	  <button className="btn" onClick={() => counter.incrementAsync()} disabled={counter.isIncrementing}>Increment Async</button>
-	</p>
-	
-	<p>
-	  <button className="btn" onClick={() => counter.decrement()} disabled={counter.isDecrementing}>Decrementing</button>
-	  <button className="btn" onClick={() => counter.decrementAsync()} disabled={counter.isDecrementing}>Decrement Async</button>
-	</p>
+	  <Segment>
+	    <Button  onClick={() => counter.decrement()} disabled={counter.isDecrementing}>Decrementing</Button>
+	    <Button  onClick={() => counter.decrementAsync()} disabled={counter.isDecrementing}>Decrement Async</Button>
+	  </Segment>
 
-	<div>
-          <button className="btn" onClick={ () => ux.alert.show( 'something bad happened' ) }>Global Alert</button>
-          <button className="btn" onClick={ () => ux.alert.show('oops', 'something BIG happened', 'large' ) }>Big Global Alert</button>
-	</div>
+	  <Segment>
+            <Button  onClick={ () => ux.alert.show( 'something bad happened' ) }>Global Alert</Button>
+            <Button  onClick={ () => ux.alert.show('oops', 'something BIG happened', 'large' ) }>Big Global Alert</Button>
+            <Button  onClick={ () => ux.alert.show('oops', 'something FullScreen happened', null, true ) }>Fullscreen Global Alert</Button>
+	  </Segment>
 
-	<div>
-          <button className="btn btn-primary" onClick={ () => ux.notification( 200, 'Informational' ) }>Info</button>
-          <button className="btn btn-warning" onClick={ () => ux.notification( 400, 'Warning' ) }>Warning</button>
-          <button className="btn btn-danger" onClick={ () => ux.notification( 500, 'Error' ) }>Error</button>
-	</div>
+	  <Segment>
+            <Button color="blue" onClick={ () => ux.notification( 200, 'Informational' ) }>Info</Button>
+            <Button color="green" onClick={ () => ux.notification( 400, 'Warning' ) }>Warning</Button>
+            <Button color="red" onClick={ () => ux.notification( 500, 'Error' ) }>Error</Button>
+	  </Segment>
 
-	<div>
-	  <button className="btn" disabled={this.fetching} onClick={ () => this.testApi( '/test/success', { email: 'aqpeeb@gmail.com' } ) }>Success</button>
-	  <button className="btn" disabled={this.fetching} onClick={ () => this.testApi( '/test/errors', {} ) }>Error</button>
-	  <button className="btn" disabled={this.fetching} onClick={ () => this.testApi( '/test/fallbacks', {} ) }>Fallback</button>
-	  <button className="btn" disabled={this.fetching} onClick={ () => this.testApi( '/test/exceptions', {} ) }>Exception</button>
-	</div>
+	  <Segment>
+	    <Button  disabled={this.fetching} onClick={ () => this.testApi( '/test/success', { email: 'aqpeeb@gmail.com' } ) }>Success</Button>
+	    <Button  disabled={this.fetching} onClick={ () => this.testApi( '/test/errors', {} ) }>Error</Button>
+	    <Button  disabled={this.fetching} onClick={ () => this.testApi( '/test/fallbacks', {} ) }>Fallback</Button>
+	    <Button  disabled={this.fetching} onClick={ () => this.testApi( '/test/exceptions', {} ) }>Exception</Button>
+	  </Segment>
+	</Segment.Group>
 
+	{/* Here's how to get at query params
 	<div>{JSON.stringify(router.queryParams)}</div>
-
+	*/}
+	
 	{ this.fetchedData ? <pre>{JSON.stringify( this.fetchedData, null, 2 )}</pre> : null }
 
 	{/* This should kick off the async fetch of the products list from the server */}
 	<ProductList products={products} />
 
 	{/* The products list won't update now unless we explicity refresh() the lazyObservable */}
-	<button className="btn" onClick={() => products.refresh()}>Refresh Products...</button>
+	<Button primary  onClick={() => products.refresh()}>Refresh Products...</Button>
 	
-      </div>
+      </Container>
     );
   }
 }

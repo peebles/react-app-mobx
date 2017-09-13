@@ -3,6 +3,10 @@ import {observer} from "mobx-react";
 import { observable } from 'mobx';
 import { routes } from '../../router';
 
+import { Segment, Form } from 'semantic-ui-react';
+
+import './login.css';
+
 @observer(["store"])
 class Login extends React.Component {
   @observable username = "";
@@ -10,15 +14,20 @@ class Login extends React.Component {
   @observable message = "Login with 'user' and '1234'"
 
   render() {
+
+    let { Field, Button, Group, Input } = Form;
+    
     return (
       <div>
         <h1>Please login</h1>
         <h2>{this.message}</h2>
-        <br/>Username
-        <br/><input value={this.username} onChange={e => this.username = e.target.value} />
-        <br/>Password
-        <br/><input value={this.password} onChange={e => this.password = e.target.value} />
-        <br/><button onClick={this.onLogin}>Login</button>
+	<Segment className="login">
+	  <Form>
+	    <Input label="Username" type="text" value={this.username} onChange={e => this.username = e.target.value} />
+	    <Input label="Password" type="password" value={this.password} onChange={e => this.password = e.target.value} />
+	    <Button type="submit" onClick={this.onLogin}>Login</Button>
+	  </Form>
+	</Segment>
       </div>
     )
   }
